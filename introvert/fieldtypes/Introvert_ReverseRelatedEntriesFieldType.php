@@ -14,6 +14,7 @@ class Introvert_ReverseRelatedEntriesFieldType extends BaseFieldType
 
 		$relatedElements = $relatedCategories = array();
 		$allowedSections = $this->getSettings()->sections;
+		$limit = $this->getSettings()->amountOfRelations != '' ? $this->getSettings()->amountOfRelations : 100;
 
 		// these are all we're looking up for now.
 		// Users will come later. Tags too I guess.
@@ -28,7 +29,7 @@ class Introvert_ReverseRelatedEntriesFieldType extends BaseFieldType
 
 		foreach($elementTypes as $key => $value)
 		{
-			$relatedElements[$key] = $introvert->getRelationships($key, $this->element, $allowedSections);
+			$relatedElements[$key] = $introvert->getRelationships($key, $this->element, $allowedSections, $limit);
 		}
 
 		// combine entries and matrix entries
@@ -52,7 +53,8 @@ class Introvert_ReverseRelatedEntriesFieldType extends BaseFieldType
 	protected function defineSettings()
 	{
 		return array(
-			'sections' => AttributeType::Mixed
+			'sections' => AttributeType::Mixed,
+			'amountOfRelations' => AttributeType::Number
 		);
 	}
 
@@ -60,7 +62,7 @@ class Introvert_ReverseRelatedEntriesFieldType extends BaseFieldType
 	{
 
 		$sections = craft()->sections->getAllSections();
-		
+
 		$sectionOptions = array();
 		foreach($sections as $section)
 		{

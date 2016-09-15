@@ -8,3 +8,14 @@
 	options: sectionOptions,
 	values: settings.sections
 })}}
+
+{{ forms.textField({
+	label: "Amount of relations to show"|t,
+	instructions: "How many related elements(per elementtype) are we allowed to show?"|t,
+	id: 'amountOfRelations',
+	type: 'number',
+	name: 'amountOfRelations',
+	placeholder: 100,
+	size: '5',
+	value: settings.amountOfRelations
+})}}

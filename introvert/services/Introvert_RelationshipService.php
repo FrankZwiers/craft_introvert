@@ -7,7 +7,7 @@ class Introvert_RelationshipService extends BaseApplicationComponent
 	var $element;
 	var $sections;
 
-	public function getRelationships($type, $element, $sections = '*')
+	public function getRelationships($type, $element, $sections = '*', $limit = 100)
 	{
 		$this->type 	= $type;
 		$this->element 	= $element;
@@ -21,6 +21,8 @@ class Introvert_RelationshipService extends BaseApplicationComponent
 
 		$criteria = craft()->elements->getCriteria($type);
 		$criteria->relatedTo = array('targetElement' => $element);
+
+		$criteria->limit = $limit;
 		$elements = craft()->elements->findElements($criteria);
 
 		switch($type)
@@ -102,7 +104,7 @@ class Introvert_RelationshipService extends BaseApplicationComponent
 	// -------------------------------------------------------------
 
 	private function _inSelectedSections($element)
-	{	
+	{
 		return (($this->sections == '*') || ($this->sections != '*' && in_array($element->sectionId, $this->sections)))
 			? TRUE : FALSE;
 	}
@@ -141,8 +143,4 @@ class Introvert_RelationshipService extends BaseApplicationComponent
 			'type' 		=> $element->elementType
 		);
 	}
-
-	
-
-
 }
